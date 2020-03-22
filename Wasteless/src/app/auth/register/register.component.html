@@ -1,0 +1,26 @@
+<div id="authentication-container" class="d-flex justify-content-center pt-5">
+    <form method="post" id="register" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group authentication-input-container">
+            <label>Email</label>
+            <input class="user-data" formControlName="email" class="form-control" />
+            <div class="text-danger" *ngIf="registerForm.get('email').errors">Invalid email address.</div>
+        </div>
+
+        <div [formGroup]="passwordsForm">
+            <div class="form-group authentication-input-container">
+                <label>Password</label>
+                <input class="user-data" formControlName="password" class="form-control" />
+            </div>
+
+            <div class="form-group authentication-input-container">
+                <label>Confirm Password</label>
+                <input class="user-data" formControlName="confirmPassword" class="form-control" />
+                <div class="text-danger" *ngIf="registerForm.get('passwords').get('confirmPassword').errors?.passwordMismatch">Passwords don't match.</div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <button class="btn btn-primary" type="submit">Sign Up</button>
+        </div>
+    </form>
+</div>
