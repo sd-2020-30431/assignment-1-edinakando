@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
+﻿using Microsoft.AspNetCore.Mvc;
+using WastelessAPI.Application.Logic;
+using WastelessAPI.DataAccess.Models;
 
 namespace WastelessAPI.Controllers
 {
     [Route("api/[controller]")]
     public class AuthenticationController : Controller
     {
-        [HttpPost]
-        public void Register(User user)
+        private UserLogic _userLogic;
+        public AuthenticationController(UserLogic userLogic)
         {
+            _userLogic = userLogic;
+        }
 
+        [HttpPost]
+        [Route("Register")]
+        public IActionResult Register([FromBody]User user)
+        {
+            User newUser = _userLogic.InsertNewUser(user);
+            if (newUser == null)
+            {
+                return BadRequest("please");
+            }
+            //login if success
+            else return new OkObjectResult("it works");
         }
     }
 }

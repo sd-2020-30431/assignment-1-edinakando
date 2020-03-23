@@ -1,19 +1,23 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { AuthService } from 'app/services/auth.service';
+import { User } from 'app/models/user';
 
 @Component({
     selector: 'register',
-    templateUrl: './register.component.html'
+    templateUrl: './register.component.html',
+    providers: [AuthService]
 })
 
-export class RegisterComponent{
-    registerForm : FormGroup;
-    passwordsForm : FormGroup;
-    submitted = false;
+export class RegisterComponent {
+    registerForm: FormGroup;
+    passwordsForm: FormGroup;
 
-    constructor(private formBuilder : FormBuilder){}
+    constructor(private formBuilder: FormBuilder,
+                private authService: AuthService) { }
 
-    ngOnInit(){
+    ngOnInit() {
         this.passwordsForm = this.formBuilder.group({
             password: ['', Validators.required],
             confirmPassword: ['', Validators.required]
@@ -25,24 +29,24 @@ export class RegisterComponent{
         })
     }
 
-    areEqual(formGroup: FormGroup){
+    areEqual(formGroup: FormGroup) {
         let password = formGroup.get('password');
         let confirmPassword = formGroup.get('confirmPassword');
-        
+
         if (confirmPassword.errors == null || 'passwordMismatch' in confirmPassword.errors) {
-          if (password.value != confirmPassword.value)
-            confirmPassword.setErrors({ passwordMismatch: true });
-          else
-            confirmPassword.setErrors(null);
+            if (password.value != confirmPassword.value)
+                confirmPassword.setErrors({ passwordMismatch: true });
+            else
+                confirmPassword.setErrors(null);
         }
     }
 
-    onSubmit(){
-        this.submitted = true;
-        console.log(this.registerForm);
+    onSubmit() {
         if (this.registerForm.invalid) {
             console.log("invalid");
             return;
         }
+
+        this.authService.register(new User(this.registerForm.get("email").value, this.passwordsForm.get("password").value));
     }
 }
