@@ -1,14 +1,14 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { environment } from 'environments/environment';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
+import { environment } from 'src/environments/environment';
 
-import { User } from 'app/models/user';
+import { User } from 'src/app/models/user';
 
 @Injectable()
 
 export class AuthService {
-    constructor(private http: Http, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     register(user: User) {
         this.http.post(`${environment.apiUrl}/authentication/register`, user)
@@ -28,8 +28,11 @@ export class AuthService {
         this.http.post(`${environment.apiUrl}/authentication/login`, user)
             .subscribe((res: any) => 
                 {
-                    localStorage.setItem(`${environment.token_name}`, res._body);
-                    window.location.href = "/";
+                    localStorage.setItem(`${environment.token_name}`, res.token);
+                    this.router.navigate(['/'])
+                        .then(() => {
+                             window.location.reload();
+                        });
                 },
                 err => {
                     if (err.status == 400){
