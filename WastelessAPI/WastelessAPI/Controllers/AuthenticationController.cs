@@ -1,4 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WastelessAPI.Application.Logic;
 using WastelessAPI.DataAccess.Models;
 
@@ -8,9 +14,12 @@ namespace WastelessAPI.Controllers
     public class AuthenticationController : Controller
     {
         private UserLogic _userLogic;
-        public AuthenticationController(UserLogic userLogic)
+        private IConfiguration _config;
+
+        public AuthenticationController(UserLogic userLogic, IConfiguration config)
         {
             _userLogic = userLogic;
+            _config = config;
         }
 
         [HttpPost]
@@ -20,10 +29,39 @@ namespace WastelessAPI.Controllers
             User newUser = _userLogic.InsertNewUser(user);
             if (newUser == null)
             {
-                return BadRequest("please");
+                return BadRequest();
             }
-            //login if success
-            else return new OkObjectResult("it works");
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login([FromBody]User user)
+        {
+            if (_userLogic.IsValidUser(user))
+            {
+                var loginToken = GenerateJSONWebToken(user.Email);
+                return Ok(new { token = loginToken });
+            }
+
+            return BadRequest();
+        }
+       
+        private String GenerateJSONWebToken(String email)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[] {
+                 new Claim(JwtRegisteredClaimNames.Email, email),
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"], _config["Jwt:Issuer"], claims,
+                                            expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

@@ -3,13 +3,6 @@
     "version": "1.0.0-beta.28.3",
     "name": "wasteless"
   },
-  "architect": {
-    "serve": {
-      "builder": "@angular-devkit/build-angular:dev-server",
-      "options": {
-        "browserTarget": "your-application-name:build",
-        "proxyConfig": "src/proxy.conf.json"
-      }}},
   "apps": [
     {
       "root": "src",

@@ -29,5 +29,11 @@ namespace WastelessAPI.Application.Logic
         {
             return _userRepository.IsDuplicateUser(user);
         }
+
+        public Boolean IsValidUser(User user)
+        {
+            user.Password = HashingSHA.GenerateSHA256String(user.Password);
+            return _userRepository.IsValidUser(user);
+        }
     }
 }

@@ -13,6 +13,7 @@ import { User } from 'app/models/user';
 export class RegisterComponent {
     registerForm: FormGroup;
     passwordsForm: FormGroup;
+    isSubmitted: Boolean = false;
 
     constructor(private formBuilder: FormBuilder,
                 private authService: AuthService) { }
@@ -42,10 +43,13 @@ export class RegisterComponent {
     }
 
     onSubmit() {
+        this.isSubmitted = true;
         if (this.registerForm.invalid) {
             console.log("invalid");
             return;
         }
+
+        this.isSubmitted = false;
 
         this.authService.register(new User(this.registerForm.get("email").value, this.passwordsForm.get("password").value));
     }

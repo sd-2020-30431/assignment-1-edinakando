@@ -10,13 +10,12 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
     RegisterComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -25,10 +24,11 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: 'register', component: RegisterComponent},
-      { path: 'login', component: LoginComponent}
+      { path: 'login', component: LoginComponent},
     ])
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

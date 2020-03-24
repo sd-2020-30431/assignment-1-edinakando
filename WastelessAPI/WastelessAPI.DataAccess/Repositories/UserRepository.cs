@@ -24,5 +24,10 @@ namespace WastelessAPI.DataAccess.Repositories
         {
             return _context.Users.Where(dbUser => dbUser.Email == user.Email).Any();
         }
+
+        public Boolean IsValidUser(User user)
+        {
+            return _context.Users.Where(dbUser => dbUser.Email == user.Email && dbUser.Password == user.Password).Any();
+        }
     }
 }
