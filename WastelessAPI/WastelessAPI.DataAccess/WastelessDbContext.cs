@@ -10,5 +10,16 @@ namespace WastelessAPI.DataAccess
         }
 
         public DbSet<User> Users { get; set; }
+        
+        public DbSet<GroceryItem> GroceryItems { get; set; }
+        public DbSet<Groceries> GroceryLists { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GroceryItem>()
+                .HasOne<Groceries>(item => item.GroceryList)
+                .WithMany(list => list.Items)
+                .HasForeignKey(item => item.ListId);
+        }
     }
 }

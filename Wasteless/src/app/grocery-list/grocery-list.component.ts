@@ -2,10 +2,13 @@ import {Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GroceryList } from 'src/app/models/groceryList';
+import { GroceryService } from '../services/grocery.service';
+import { GroceryItem } from '../models/groceryItem';
 
 @Component({
     selector: 'grocery-list',
     templateUrl: './grocery-list.component.html',
+    providers: [GroceryService]
 })
 
 export class GroceryListComponent{
@@ -16,7 +19,8 @@ export class GroceryListComponent{
     itemsCount: number;
     groceryList = new GroceryList();
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder,
+                private groceryService : GroceryService) { }
 
     ngOnInit() {
         this.listDetailsForm = this.formBuilder.group({
@@ -34,14 +38,16 @@ export class GroceryListComponent{
         }
 
         for (let i = 0; i < this.itemsCount; i++) {
-            console.log(this.itemsForm.get(`itemName${i}`).value);
-            console.log(this.itemsForm.get(`quantity${i}`).value);
-            console.log(this.itemsForm.get(`calories${i}`).value);
-            console.log(this.itemsForm.get(`purchaseDate${i}`).value);
-            console.log(this.itemsForm.get(`expirationDate${i}`).value);
+            this.groceryList.items[i] = new GroceryItem ();
+            this.groceryList.items[i].name = this.itemsForm.get(`itemName${i}`).value;
+            this.groceryList.items[i].quantity = this.itemsForm.get(`quantity${i}`).value;
+            this.groceryList.items[i].calories = this.itemsForm.get(`calories${i}`).value;
+            this.groceryList.items[i].purchaseDate = this.itemsForm.get(`purchaseDate${i}`).value;
+            this.groceryList.items[i].expirationDate = this.itemsForm.get(`expirationDate${i}`).value;
         }
 
         this.isSubmitted = false;
+        this.groceryService.saveList(this.groceryList);
     }
 
     createList(){
