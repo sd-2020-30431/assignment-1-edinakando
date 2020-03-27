@@ -14,7 +14,7 @@ namespace WastelessAPI
             host.Services.UseScheduler(scheduler =>
             {
                 scheduler.Schedule<WasteLevelReminder>()
-                         .EveryFiveSeconds();
+                         .DailyAt(13, 00);
             });
             host.Run();
         }

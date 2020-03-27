@@ -46,7 +46,7 @@ namespace WastelessAPI.DataAccess.Repositories
      
         private Boolean _IsWaste(GroceryItem grocery)
         {
-            return grocery.ConsumptionDate == null  && grocery.ExpirationDate > DateTime.Now;
+            return grocery.ConsumptionDate == null  && grocery.ExpirationDate < DateTime.Now;
         }
     }
 }

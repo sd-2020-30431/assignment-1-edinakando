@@ -12,5 +12,8 @@ namespace WastelessAPI.DataAccess.Models
         public String Name { get; set; }
 
         public IList<GroceryItem> Items { get; set; }
+
+        [Column("user_id")]
+        public Int32 UserId { get; set; }
     }
 }

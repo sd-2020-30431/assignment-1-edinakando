@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WastelessAPI.DataAccess.Models;
 
@@ -28,6 +29,11 @@ namespace WastelessAPI.DataAccess.Repositories
         public Boolean IsValidUser(User user)
         {
             return _context.Users.Where(dbUser => dbUser.Email == user.Email && dbUser.Password == user.Password).Any();
+        }
+
+        public IList<User> GetUsers()
+        {
+            return _context.Users.ToList();
         }
     }
 }
