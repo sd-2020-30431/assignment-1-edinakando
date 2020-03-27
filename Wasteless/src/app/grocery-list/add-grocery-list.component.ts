@@ -2,16 +2,16 @@ import {Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { GroceryList } from 'src/app/models/groceryList';
-import { GroceryService } from '../services/grocery.service';
 import { GroceryItem } from '../models/groceryItem';
+import { GroceryService } from '../services/grocery.service';
 
 @Component({
-    selector: 'grocery-list',
-    templateUrl: './grocery-list.component.html',
+    selector: 'add-grocery-list',
+    templateUrl: './add-grocery-list.component.html',
     providers: [GroceryService]
 })
 
-export class GroceryListComponent{
+export class AddGroceryListComponent{
     listDetailsForm: FormGroup;
     itemsForm: FormGroup;
     isSubmitted: Boolean = false;
@@ -44,6 +44,7 @@ export class GroceryListComponent{
             this.groceryList.items[i].calories = this.itemsForm.get(`calories${i}`).value;
             this.groceryList.items[i].purchaseDate = this.itemsForm.get(`purchaseDate${i}`).value;
             this.groceryList.items[i].expirationDate = this.itemsForm.get(`expirationDate${i}`).value;
+            this.groceryList.items[i].expirationDate = this.itemsForm.get(`consumptionDate${i}`).value;
         }
 
         this.isSubmitted = false;
@@ -67,6 +68,7 @@ export class GroceryListComponent{
             items[`calories${i}`] = ['', Validators.required];
             items[`purchaseDate${i}`] = ['', Validators.required];
             items[`expirationDate${i}`] = ['', Validators.required];
+            items[`consumptionDate${i}`] = ['', Validators.required];
         }
         this.itemsForm = this.formBuilder.group(items);
     }

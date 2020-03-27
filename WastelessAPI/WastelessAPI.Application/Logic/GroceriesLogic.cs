@@ -1,4 +1,4 @@
-﻿using WastelessAPI.Application.Models;
+﻿using WastelessAPI.Application.Models.Groceries;
 using WastelessAPI.DataAccess.Repositories;
 using System.Linq;
 
@@ -25,7 +25,8 @@ namespace WastelessAPI.Application.Logic
                         Quantity = item.Quantity,
                         Calories = item.Calories,
                         PurchaseDate = item.PurchaseDate,
-                        ExpirationDate = item.ExpirationDate
+                        ExpirationDate = item.ExpirationDate,
+                        ConsumptionDate = item.ConsumptionDate
                     }).ToList()
             }); ;
 

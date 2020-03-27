@@ -4,4 +4,5 @@ export class GroceryItem {
     calories: Number;
     purchaseDate: Date;
     expirationDate: Date;
+    consumptionDate: Date;
 }

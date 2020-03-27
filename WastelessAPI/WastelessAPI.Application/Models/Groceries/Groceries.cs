@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WastelessAPI.Application.Models
+namespace WastelessAPI.Application.Models.Groceries
 {
     public class Groceries
     {

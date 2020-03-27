@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { GroceryListComponent } from './grocery-list/grocery-list.component';
+import { AddGroceryListComponent } from './grocery-list/add-grocery-list.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { GroceryListComponent } from './grocery-list/grocery-list.component';
     NavBarComponent,
     RegisterComponent,
     LoginComponent,
-    GroceryListComponent
+    AddGroceryListComponent
   ],
   imports: [
     BrowserModule,

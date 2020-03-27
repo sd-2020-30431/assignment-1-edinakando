@@ -17,6 +17,9 @@ namespace WastelessAPI.DataAccess.Models
         [Column("expiration_date")]
         public DateTime ExpirationDate { get; set; }
 
+        [Column("consumption_date")]
+        public DateTime? ConsumptionDate { get; set; }
+
         [Column("list_id")]
         public Int32 ListId { get; set; }
         public Groceries GroceryList { get; set; }

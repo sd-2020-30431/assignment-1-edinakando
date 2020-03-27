@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WastelessAPI.Application.Logic;
-using WastelessAPI.Application.Models;
+using WastelessAPI.Application.Models.Groceries;
 
 namespace WastelessAPI.Controllers
 {

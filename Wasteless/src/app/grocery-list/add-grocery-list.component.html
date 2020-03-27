@@ -23,6 +23,12 @@
                     <mat-datepicker-toggle matSuffix [for]="expiration"></mat-datepicker-toggle>
                     <mat-datepicker #expiration></mat-datepicker>
                 </mat-form-field>
+
+                <mat-form-field>
+                    <input formControlName='consumptionDate{{i}}' matInput [matDatepicker]="consumption" placeholder="Consumption Date">
+                    <mat-datepicker-toggle matSuffix [for]="consumption"></mat-datepicker-toggle>
+                    <mat-datepicker #consumption></mat-datepicker>
+                </mat-form-field>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Add Grocery List</button>
