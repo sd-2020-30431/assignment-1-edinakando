@@ -15,6 +15,9 @@ namespace WastelessAPI
             {
                 scheduler.Schedule<WasteLevelReminder>()
                          .DailyAt(13, 00);
+
+                scheduler.Schedule<DonationNotification>()
+                        .DailyAt(14, 30);
             });
             host.Run();
         }
