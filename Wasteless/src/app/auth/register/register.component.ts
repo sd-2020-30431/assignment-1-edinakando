@@ -13,7 +13,6 @@ import { User } from 'src/app/models/user';
 export class RegisterComponent {
     registerForm: FormGroup;
     passwordsForm: FormGroup;
-    isSubmitted: Boolean = false;
 
     constructor(private formBuilder: FormBuilder,
                 private authService: AuthService) { }
@@ -25,7 +24,7 @@ export class RegisterComponent {
         }, { validator: this.areEqual });
 
         this.registerForm = this.formBuilder.group({
-            email: ['', Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{1,4}$")],
+            email: ['', [Validators.required, Validators.email]],
             passwords: this.passwordsForm,
         })
     }
@@ -35,22 +34,28 @@ export class RegisterComponent {
         let confirmPassword = formGroup.get('confirmPassword');
 
         if (confirmPassword.errors == null || 'passwordMismatch' in confirmPassword.errors) {
-            if (password.value != confirmPassword.value)
+            if (password.value != confirmPassword.value){               
+                password.setErrors({ passwordMismatch: true });
                 confirmPassword.setErrors({ passwordMismatch: true });
+            }
             else
                 confirmPassword.setErrors(null);
         }
     }
 
     onSubmit() {
-        this.isSubmitted = true;
-        if (this.registerForm.invalid) {
-            console.log("invalid");
-            return;
-        }
-
-        this.isSubmitted = false;
-
         this.authService.register(new User(this.registerForm.get("email").value, this.passwordsForm.get("password").value));
+    }
+
+    get email(){
+        return this.registerForm.get('email');
+    }
+
+    get password(){
+        return this.passwordsForm.get('password');
+    }
+
+    get confirmPassword(){
+        return this.passwordsForm.get('confirmPassword');
     }
 }
