@@ -5,4 +5,5 @@ export class GroceryItem {
     purchaseDate: Date;
     expirationDate: Date;
     consumptionDate: Date;
+    userId: Number;
 }

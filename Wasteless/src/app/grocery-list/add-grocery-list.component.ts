@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 import { GroceryList } from 'src/app/models/groceryList';
 import { GroceryItem } from '../models/groceryItem';
@@ -11,69 +11,76 @@ import { GroceryService } from '../services/grocery.service';
     providers: [GroceryService]
 })
 
-export class AddGroceryListComponent{
+export class AddGroceryListComponent {
     listDetailsForm: FormGroup;
     itemsForm: FormGroup;
-    isSubmitted: Boolean = false;
     isCountSubmitted: Boolean = false;
-    itemsCount: number;
     groceryList = new GroceryList();
 
     constructor(private formBuilder: FormBuilder,
-                private groceryService : GroceryService) { }
+                private groceryService: GroceryService) { }
 
     ngOnInit() {
         this.listDetailsForm = this.formBuilder.group({
             listName: ['', Validators.required],
             itemsCount: ['', Validators.required],
         });
+
+        this.itemsForm = this.formBuilder.group({
+            items: this.formBuilder.array([])
+        });
+    }
+
+    newItem(): FormGroup{
+        return this.formBuilder.group({
+            name: ['', Validators.required],
+            quantity: ['', Validators.required],
+            calories: ['', Validators.required],
+            purchaseDate: ['', Validators.required],
+            expirationDate: ['', Validators.required],
+            consumptionDate: null
+        })
+    }
+
+    addItems(){
+        this.items.push(this.newItem());
     }
 
     onSubmit() {
-        this.isSubmitted = true;
-
-        if (this.listDetailsForm.invalid) {
-            console.log("invalid");
-            return;
-        }
-
-        for (let i = 0; i < this.itemsCount; i++) {
-            this.groceryList.items[i] = new GroceryItem ();
-            this.groceryList.items[i].name = this.itemsForm.get(`itemName${i}`).value;
-            this.groceryList.items[i].quantity = this.itemsForm.get(`quantity${i}`).value;
-            this.groceryList.items[i].calories = this.itemsForm.get(`calories${i}`).value;
-            this.groceryList.items[i].purchaseDate = this.itemsForm.get(`purchaseDate${i}`).value;
-            this.groceryList.items[i].expirationDate = this.itemsForm.get(`expirationDate${i}`).value;
-            this.groceryList.items[i].expirationDate = this.itemsForm.get(`consumptionDate${i}`).value;
-        }
-
-        this.isSubmitted = false;
+        this.groceryList.items = this.itemsForm.get("items").value;
         this.groceryService.saveList(this.groceryList);
     }
 
-    createList(){
-        if (this.listDetailsForm.invalid) {
-            console.log("invalid");
-            return;
-        }
+    createList() {
         this.isCountSubmitted = true;
         this.groceryList.name = this.listDetailsForm.get("listName").value;
-        this.itemsCount = this.listDetailsForm.get("itemsCount").value;
-
-        let items = {};
-
-        for (let i = 0; i < this.itemsCount; i++) {
-            items[`itemName${i}`] = ['', Validators.required];
-            items[`quantity${i}`] = ['', Validators.required];
-            items[`calories${i}`] = ['', Validators.required];
-            items[`purchaseDate${i}`] = ['', Validators.required];
-            items[`expirationDate${i}`] = ['', Validators.required];
-            items[`consumptionDate${i}`] = ['', Validators.required];
+        
+        for (let i = 0; i < this.listDetailsForm.get("itemsCount").value; i++) {
+           this.addItems();
         }
-        this.itemsForm = this.formBuilder.group(items);
     }
 
-    array(n: number): number[] {
-        return [...Array(n).keys()];
+    get listName() {
+        return this.listDetailsForm.get('listName');
+    }
+
+    get itemsCountInput() {
+        return this.listDetailsForm.get('itemsCount');
+    }
+
+    get items() : FormArray {
+        return this.itemsForm.get("items") as FormArray;
+    }
+
+    name(i){
+        return this.items.controls[i].get("name");
+    }
+
+    quantity(i){
+        return this.items.controls[i].get("quantity");
+    }
+
+    calories(i){
+        return this.items.controls[i].get("calories");
     }
 }

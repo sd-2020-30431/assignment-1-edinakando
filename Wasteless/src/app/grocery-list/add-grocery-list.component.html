@@ -1,43 +1,57 @@
-<div class="form-group" ng-class="'has-error': addEventForm.eventName.$touched && addEventForm.eventName.$invalid}">
+<div class="form-group">
     <form method="post" [formGroup]="listDetailsForm" (ngSubmit)="createList()">
-        <input class="form-control grocery" formControlName="listName" required placeholder="Grocery List Name" />
-        <input class="form-control grocery" formControlName="itemsCount" type="number" placeholder="Items Count" />
-        <button class="btn btn-secondary btn-sm" type="submit" [disabled]="isCountSubmitted">Start list</button>
+        <input class="form-control grocery" formControlName="listName" required placeholder="Grocery List Name"
+            [ngClass]="{'is-invalid': listName.invalid && listName.touched}" [readonly]="isCountSubmitted" />
+        <input class="form-control grocery" formControlName="itemsCount" type="number" placeholder="Items Count"
+            [ngClass]="{'is-invalid': itemsCountInput.invalid && itemsCountInput.touched}"
+            [readonly]="isCountSubmitted" />
+        <button class="btn btn-secondary btn-sm" type="submit"
+            [disabled]="listDetailsForm.invalid || isCountSubmitted">Start list</button>
     </form>
 </div>
 
 <div *ngIf="isCountSubmitted">
-    <form method="post" [formGroup]="itemsForm" (ngSubmit)="onSubmit()">
-        <div *ngFor="let i of array(itemsCount)">
-            <div class="d-flex justify-content-center pd-5">
-                <input class="form-control grocery" formControlName='itemName{{i}}' placeholder="Item Name" />
-                <input class="form-control grocery" formControlName='quantity{{i}}' type="number"
-                    placeholder="Quantity" />
-                <input class="form-control grocery" formControlName='calories{{i}}' type="number"
-                    placeholder="Calories" />
+    <div class="row d-flex justify-content-center">
+        <form method="post" [formGroup]="itemsForm" (ngSubmit)="onSubmit()">
+            <div formArrayName="items">
+                <div *ngFor="let item of items.controls; let i=index">
+                    <div formGroupName="{{i}}" class="pt-5">
+                        <input class="form-control" formControlName='name' placeholder="Item Name"
+                            [ngClass]="{'is-invalid': name(i).invalid && name(i).touched}" />
+                        <input class="form-control" formControlName='quantity' type="number"
+                            placeholder="Quantity"
+                            [ngClass]="{'is-invalid': quantity(i).invalid && quantity(i).touched}" />
+                        <input class="form-control" formControlName='calories' type="number"
+                            placeholder="Calories"
+                            [ngClass]="{'is-invalid': calories(i).invalid && calories(i).touched}" />
 
-                <mat-form-field>
-                    <input formControlName='purchaseDate{{i}}' matInput [matDatepicker]="purchase"
-                        placeholder="Purchase Date">
-                    <mat-datepicker-toggle matSuffix [for]="purchase"></mat-datepicker-toggle>
-                    <mat-datepicker #purchase></mat-datepicker>
-                </mat-form-field>
+                        <mat-form-field>
+                            <input formControlName='purchaseDate' matInput [matDatepicker]="purchase"
+                                placeholder="Purchase Date">
+                            <mat-datepicker-toggle matSuffix [for]="purchase"></mat-datepicker-toggle>
+                            <mat-datepicker #purchase></mat-datepicker>
 
-                <mat-form-field>
-                    <input formControlName='expirationDate{{i}}' matInput [matDatepicker]="expiration"
-                        placeholder="Expiration Date">
-                    <mat-datepicker-toggle matSuffix [for]="expiration"></mat-datepicker-toggle>
-                    <mat-datepicker #expiration></mat-datepicker>
-                </mat-form-field>
+                        </mat-form-field>
 
-                <mat-form-field>
-                    <input formControlName='consumptionDate{{i}}' matInput [matDatepicker]="consumption"
-                        placeholder="Consumption Date">
-                    <mat-datepicker-toggle matSuffix [for]="consumption"></mat-datepicker-toggle>
-                    <mat-datepicker #consumption></mat-datepicker>
-                </mat-form-field>
+                        <mat-form-field>
+                            <input formControlName='expirationDate' matInput [matDatepicker]="expiration"
+                                placeholder="Expiration Date">
+                            <mat-datepicker-toggle matSuffix [for]="expiration"></mat-datepicker-toggle>
+                            <mat-datepicker #expiration></mat-datepicker>
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input formControlName='consumptionDate' matInput [matDatepicker]="consumption"
+                                placeholder="Consumption Date">
+                            <mat-datepicker-toggle matSuffix [for]="consumption"></mat-datepicker-toggle>
+                            <mat-datepicker #consumption></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
-        </div>
-        <button class="btn btn-primary" type="submit">Add Grocery List</button>
-    </form>
+            <div class="text-center">
+                <button [disabled]="itemsForm.invalid" class="btn btn-primary" type="submit">Add Grocery List</button>
+            </div>
+        </form>
+    </div>
 </div>
