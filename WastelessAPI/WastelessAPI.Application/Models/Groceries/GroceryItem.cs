@@ -19,7 +19,7 @@ namespace WastelessAPI.Application.Models.Groceries
             Quantity = item.Quantity;
             PurchaseDate = item.PurchaseDate.Date;
             ExpirationDate = item.ExpirationDate.Date;
-            ConsumptionDate = item.ConsumptionDate?.Date;
+            ConsumptionDate = item.ConsumptionDate == DateTime.MinValue ? null : item.ConsumptionDate;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WastelessAPI.DataAccess.Models;
@@ -28,6 +29,13 @@ namespace WastelessAPI.DataAccess.Repositories
                                                         item.ExpirationDate > DateTime.Now &&
                                                         item.ExpirationDate < DateTime.Now.AddDays(MAX_DAYS_TILL_EXPIRATION))
                                         .ToList();
+        }
+
+        public IList<Groceries> GetGroceries(Int32 userId)
+        {
+            return _context.GroceryLists
+                             .Include(list => list.Items)
+                             .Where(list => list.UserId == userId).ToList();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using WastelessAPI.Application.Models.Groceries;
 using WastelessAPI.DataAccess.Repositories;
 using System.Linq;
+using System;
+using System.Collections.Generic;
 
 namespace WastelessAPI.Application.Logic
 {
@@ -30,6 +32,17 @@ namespace WastelessAPI.Application.Logic
                     }).ToList()
             }); ;
 
+        }
+
+        public IList<Groceries> GetGroceries(int userId)
+        {
+            IList<DataAccess.Models.Groceries> groceries = _groceriesRepository.GetGroceries(userId);
+
+            return groceries.Select(list => new Groceries
+            {
+                Name = list.Name,
+                Items = list.Items?.Select(item => new GroceryItem(item))?.ToList()
+            })?.ToList();
         }
     }
 }

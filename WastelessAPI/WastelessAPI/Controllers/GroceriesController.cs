@@ -23,5 +23,11 @@ namespace WastelessAPI.Controllers
             _groceriesLogic.Save(groceries);
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult Index(Int32 userId)
+        {
+            return new JsonResult(_groceriesLogic.GetGroceries(userId));
+        }
     }
 }

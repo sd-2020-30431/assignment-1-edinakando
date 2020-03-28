@@ -14,6 +14,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { AddGroceryListComponent } from './grocery-list/add-grocery-list.component';
+import { ViewGroceryListComponent } from './grocery-list/view-grocery-list.component';
 import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
@@ -23,6 +24,7 @@ import { ReportsComponent } from './reports/reports.component';
     RegisterComponent,
     LoginComponent,
     AddGroceryListComponent,
+    ViewGroceryListComponent,
     ReportsComponent
   ],
   imports: [
