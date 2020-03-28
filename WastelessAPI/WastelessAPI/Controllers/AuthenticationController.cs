@@ -39,15 +39,20 @@ namespace WastelessAPI.Controllers
         [Route("Login")]
         public IActionResult Login([FromBody]User user)
         {
-            if (_userLogic.IsValidUser(user))
+            User validUser = _userLogic.GetValidUser(user);
+            if (validUser != null)
             {
                 var loginToken = GenerateJSONWebToken(user.Email);
-                return Ok(new { token = loginToken });
+                return Ok(new
+                {
+                    token = loginToken,
+                    userId = validUser.Id
+                });
             }
 
             return BadRequest();
         }
-       
+
         private String GenerateJSONWebToken(String email)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

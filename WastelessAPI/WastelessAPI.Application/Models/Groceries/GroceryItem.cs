@@ -10,7 +10,6 @@ namespace WastelessAPI.Application.Models.Groceries
         public DateTime PurchaseDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public DateTime? ConsumptionDate { get; set; }
-        public Int32? UserId { get; set; }
 
         public GroceryItem(){ }
         public GroceryItem(DataAccess.Models.GroceryItem item)
@@ -18,9 +17,9 @@ namespace WastelessAPI.Application.Models.Groceries
             Name = item.Name;
             Calories = item.Calories;
             Quantity = item.Quantity;
-            PurchaseDate = item.PurchaseDate;
-            ExpirationDate = item.ExpirationDate;
-            ConsumptionDate = item.ConsumptionDate;
+            PurchaseDate = item.PurchaseDate.Date;
+            ExpirationDate = item.ExpirationDate.Date;
+            ConsumptionDate = item.ConsumptionDate?.Date;
         }
     }
 }

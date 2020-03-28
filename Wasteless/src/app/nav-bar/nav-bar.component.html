@@ -13,6 +13,9 @@
           </ul>
 
           <ul class="navbar-nav flex-grow"> 
+            <li *ngIf="isLoggedIn" class="nav-item" [routerLinkActive]="['link-active']"  >
+              <a class="nav-link text-dark" role="link" [routerLink]="['/reports']">Reports</a>
+            </li>
             <li *ngIf="isLoggedIn" class="nav-item"  >
               <a class="nav-link text-dark" role="link" (click)="logout()">Logout</a>
             </li>

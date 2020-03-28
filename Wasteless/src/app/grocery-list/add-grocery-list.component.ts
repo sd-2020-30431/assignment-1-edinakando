@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 import { GroceryList } from 'src/app/models/groceryList';
-import { GroceryItem } from '../models/groceryItem';
 import { GroceryService } from '../services/grocery.service';
 
 @Component({

@@ -29,6 +29,7 @@ export class AuthService {
             .subscribe((res: any) => 
                 {
                     localStorage.setItem(`${environment.token_name}`, res.token);
+                    localStorage.setItem(`${environment.user_id}`, res.userId);
                     this.router.navigate(['/'])
                         .then(() => {
                              window.location.reload();
@@ -48,11 +49,16 @@ export class AuthService {
 
     logout() {
         localStorage.removeItem(`${environment.token_name}`);
+        localStorage.removeItem(`${environment.user_id}`);
         location.reload();
     }
 
     isLoggedIn(){
         var token = localStorage.getItem(`${environment.token_name}`);
         return token != 'undefined' && token != null;
+    }
+
+    getUserId(){
+        return localStorage.getItem(`${environment.user_id}`);
     }
 }

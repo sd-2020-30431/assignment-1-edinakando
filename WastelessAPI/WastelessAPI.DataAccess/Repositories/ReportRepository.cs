@@ -14,14 +14,18 @@ namespace WastelessAPI.DataAccess.Repositories
             _context = context;
         }
 
-        public IList<GroceryItem> GetWeeklyReport()
+        public IList<GroceryItem> GetWeeklyReport(Int32 userId)
         {
-            return _context.GroceryItems.Where(item => _IsWaste(item) && _IsFromCurrentWeek(item.ExpirationDate)).ToList();
+            var groceryItems = _GetUserGroceries(userId);
+            return groceryItems.Where(item => _IsWaste(item) && _IsFromCurrentWeek(item.ExpirationDate))
+                            .ToList();
         }
 
-        public IList<GroceryItem> GetMonthlyReport()
+        public IList<GroceryItem> GetMonthlyReport(Int32 userId)
         {
-            return _context.GroceryItems.Where(item => _IsWaste(item) && _IsFromCurrentMonth(item.ExpirationDate)).ToList();
+            var groceryItems = _GetUserGroceries(userId);
+            return groceryItems.Where(item => _IsWaste(item) && _IsFromCurrentMonth(item.ExpirationDate))
+                            .ToList();
         }
 
         private Boolean _IsFromCurrentWeek(DateTime date)
@@ -41,10 +45,19 @@ namespace WastelessAPI.DataAccess.Repositories
             var currentMonthEndDate = currentMonthStartDate.AddMonths(1).AddDays(-1);
             return date > currentMonthStartDate && date < currentMonthEndDate;
         }
-     
+
         private Boolean _IsWaste(GroceryItem grocery)
         {
-            return grocery.ConsumptionDate == null  && grocery.ExpirationDate < DateTime.Now;
+            return grocery.ConsumptionDate == DateTime.MinValue && grocery.ExpirationDate < DateTime.Now;
+        }
+
+        private IList<GroceryItem> _GetUserGroceries(Int32 userId)
+        {
+            List<IList<GroceryItem>> groceries = _context.GroceryLists.Where(list => list.UserId == userId && list.Items.Count != 0)
+                                                .Select(list => list.Items)
+                                                .ToList();
+
+            return groceries.Aggregate(new List<GroceryItem>(), (x, y) => x.Concat(y).ToList()).ToList();
         }
     }
 }

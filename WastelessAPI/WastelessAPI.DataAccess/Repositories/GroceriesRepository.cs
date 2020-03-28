@@ -24,7 +24,7 @@ namespace WastelessAPI.DataAccess.Repositories
         {
             Int32 MAX_DAYS_TILL_EXPIRATION = 5;
             return _context.GroceryItems.Where(item => item.GroceryList.UserId == userId && 
-                                                        item.ConsumptionDate == null &&
+                                                        item.ConsumptionDate == DateTime.MinValue &&
                                                         item.ExpirationDate > DateTime.Now &&
                                                         item.ExpirationDate < DateTime.Now.AddDays(MAX_DAYS_TILL_EXPIRATION))
                                         .ToList();

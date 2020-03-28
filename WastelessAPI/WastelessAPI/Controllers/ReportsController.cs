@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using WastelessAPI.Application.Factory;
 using WastelessAPI.Application.Logic;
 using WastelessAPI.Application.Models.Reports;
@@ -18,7 +19,7 @@ namespace WastelessAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(ReportType type)
+        public IActionResult Index(ReportType type, Int32 userId)
         {
             IAbstractReportFactory factory = null;
 
@@ -31,7 +32,7 @@ namespace WastelessAPI.Controllers
                 factory = new MonthlyReportFactory();
             }
 
-            return new JsonResult(new ReportLogic(factory, _context).GetReport());
+            return new JsonResult(new ReportLogic(factory, _context).GetReport(userId));
         }
     }
 }

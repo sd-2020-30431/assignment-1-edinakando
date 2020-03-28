@@ -14,6 +14,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { AddGroceryListComponent } from './grocery-list/add-grocery-list.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AddGroceryListComponent } from './grocery-list/add-grocery-list.compone
     NavBarComponent,
     RegisterComponent,
     LoginComponent,
-    AddGroceryListComponent
+    AddGroceryListComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

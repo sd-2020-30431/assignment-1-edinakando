@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WastelessAPI.Application.Models.Groceries;
 using WastelessAPI.DataAccess;
@@ -15,10 +16,10 @@ namespace WastelessAPI.Application.Models.Reports
             _context = context;
         }
 
-        public IList<GroceryItem> GetReport()
+        public IList<GroceryItem> GetReport(Int32 userId)
         {
             var reportRepository = new ReportRepository(_context);
-            IList<DataAccess.Models.GroceryItem> wastedGroceries = reportRepository.GetMonthlyReport();
+            IList<DataAccess.Models.GroceryItem> wastedGroceries = reportRepository.GetMonthlyReport(userId);
             return wastedGroceries.Select(item => new GroceryItem(item)).ToList();
         }
     }
