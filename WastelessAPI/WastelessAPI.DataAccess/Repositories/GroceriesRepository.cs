@@ -37,5 +37,13 @@ namespace WastelessAPI.DataAccess.Repositories
                              .Include(list => list.Items)
                              .Where(list => list.UserId == userId).ToList();
         }
+
+        public void Consume(int itemId)
+        {
+            var item = _context.GroceryItems.Where(item => item.Id == itemId).FirstOrDefault();
+            item.ConsumptionDate = DateTime.Now;
+            _context.Update(item);
+            _context.SaveChanges();
+        }
     }
 }

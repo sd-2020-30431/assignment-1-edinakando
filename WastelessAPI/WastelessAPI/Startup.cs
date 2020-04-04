@@ -25,8 +25,10 @@ namespace WastelessAPI
         {
             services.AddTransient<UserRepository>();
             services.AddTransient<GroceriesRepository>();
+            services.AddTransient<CharitiesRepository>();
             services.AddTransient<UserLogic>();
             services.AddTransient<GroceriesLogic>();
+            services.AddTransient<CharitiesLogic>();
 
             services.AddDbContext<WastelessDbContext>(options => options.UseMySql(_config.GetConnectionString("WASTELESS_DB")));
             

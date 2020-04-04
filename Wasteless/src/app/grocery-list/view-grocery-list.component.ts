@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { GroceryList } from 'src/app/models/groceryList';
 import { GroceryService } from '../services/grocery.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'view-grocery-list',
@@ -17,7 +18,8 @@ export class ViewGroceryListComponent {
 
     constructor(private formBuilder: FormBuilder,
                 private groceryService: GroceryService,
-                private authService: AuthService) { }
+                private authService: AuthService,
+                private router: Router) { }
    
     ngOnInit() {
         this.groceryService.getGroceries(this.authService.getUserId())

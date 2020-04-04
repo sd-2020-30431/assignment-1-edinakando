@@ -10,9 +10,10 @@ namespace WastelessAPI.DataAccess
         }
 
         public DbSet<User> Users { get; set; }
-        
         public DbSet<GroceryItem> GroceryItems { get; set; }
         public DbSet<Groceries> GroceryLists { get; set; }
+        public DbSet<Charity> Charities { get; set; }
+        public DbSet<Donation> Donations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

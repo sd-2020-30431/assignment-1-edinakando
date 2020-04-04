@@ -1,4 +1,5 @@
 export class GroceryItem {
+    id: Number;
     name: String;
     quantity: Number;
     calories: Number;
